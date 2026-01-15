@@ -1,0 +1,250 @@
+   BACKEND FOLDER STRUCTURE
+   ========================
+   Generated: January 15, 2026
+
+   backend/
+   │
+   ├── .env
+   ├── create-profiles.js
+   ├── package.json
+   ├── package-lock.json
+   ├── tsconfig.json
+   ├── seed-test-data.ts
+   ├── test-smtp.ts
+   │
+   ├── Documentation Files:
+   │   ├── FILE_UPLOAD_TESTING_GUIDE.md
+   │   ├── POSTMAN_TEST_COLLECTION.md
+   │   ├── SUBMISSION_SYSTEM_README.md
+   │   └── TESTING_GUIDE.md
+   │
+   ├── dist/                           (Build output directory)
+   │
+   ├── node_modules/                   (Dependencies)
+   │
+   ├── uploads/                        (File uploads storage)
+   │   ├── drafts/
+   │   └── finals/
+   │
+   └── src/                           (Source code)
+      │
+      ├── app.ts                     (Express app configuration)
+      ├── server.ts                  (Server entry point)
+      │
+      ├── config/                    (Configuration)
+      │   └── env.ts
+      │
+      ├── core/                      (Core utilities & middleware)
+      │   │
+      │   ├── errors/                (Custom error classes)
+      │   │   ├── AppError.ts
+      │   │   ├── BadRequestError.ts
+      │   │   ├── ForbiddenError.ts
+      │   │   ├── NotFoundError.ts
+      │   │   └── UnauthorizedError.ts
+      │   │
+      │   ├── logger/                (Logging - empty)
+      │   │
+      │   ├── middleware/            (Express middleware)
+      │   │   ├── auth.ts
+      │   │   ├── errorHandler.ts
+      │   │   └── requireRole.ts
+      │   │
+      │   └── utils/                 (Utility functions)
+      │       ├── asyncHandler.ts
+      │       └── statusTransitions.ts
+      │
+      ├── db/                        (Database connection)
+      │   └── index.ts
+      │
+      ├── jobs/                      (Background jobs - empty)
+      │
+      └── modules/                   (Feature modules)
+         │
+         ├── admin/                 (Admin module - empty)
+         │
+         ├── auth/                  (Authentication)
+         │   ├── auth.controller.ts
+         │   ├── auth.routes.ts
+         │   └── auth.service.ts
+         │
+         ├── emails/                (Email service)
+         │   └── email.service.ts
+         │
+         ├── facultyProfiles/       (Faculty profiles)
+         │   └── facultyProfile.model.ts
+         │
+         ├── files/                 (File management)
+         │   ├── file.controller.ts
+         │   ├── file.model.ts
+         │   ├── file.routes.ts
+         │   └── storage.service.ts
+         │
+         ├── health/                (Health checks - empty)
+         │
+         ├── studentProfiles/       (Student profiles)
+         │   └── studentProfile.model.ts
+         │
+         ├── submissions/           (LOR submissions)
+         │   ├── submission.controller.ts
+         │   ├── submission.model.ts
+         │   ├── submission.routes.ts
+         │   └── submission.service.ts
+         │
+         └── users/                 (User management)
+               └── user.model.ts
+
+
+   FILE COUNT SUMMARY
+   ==================
+
+   Root Level: 9 files
+   Documentation: 4 files
+   src/ directory: 2 files
+   config/: 1 file
+   core/errors/: 5 files
+   core/logger/: 0 files (empty)
+   core/middleware/: 3 files
+   core/utils/: 2 files
+   db/: 1 file
+   jobs/: 0 files (empty)
+   modules/admin/: 0 files (empty)
+   modules/auth/: 3 files
+   modules/emails/: 1 file
+   modules/facultyProfiles/: 1 file
+   modules/files/: 4 files
+   modules/health/: 0 files (empty)
+   modules/studentProfiles/: 1 file
+   modules/submissions/: 4 files
+   modules/users/: 1 file
+
+   Total TypeScript Files: 29
+   Total Documentation Files: 4
+   Total Configuration Files: 3 (package.json, tsconfig.json, .env)
+   Total JavaScript Files: 1 (create-profiles.js)
+
+
+   DIRECTORY PURPOSE
+   =================
+
+   src/
+   Main source code directory
+
+   src/config/
+   Environment configuration and settings
+
+   src/core/
+   Core application utilities, shared across modules
+
+   src/core/errors/
+   Custom error classes for consistent error handling
+
+   src/core/middleware/
+   Express middleware for authentication, authorization, error handling
+
+   src/core/utils/
+   Helper functions and utilities
+
+   src/db/
+   Database connection and setup
+
+   src/jobs/
+   Background job definitions (currently empty)
+
+   src/modules/
+   Feature-based modules (domain-driven design)
+
+   src/modules/auth/
+   User authentication (login, register, session management)
+
+   src/modules/emails/
+   Email sending service
+
+   src/modules/facultyProfiles/
+   Faculty profile data model
+
+   src/modules/files/
+   File upload, download, and storage management
+
+   src/modules/studentProfiles/
+   Student profile data model
+
+   src/modules/submissions/
+   LOR request submission management
+
+   src/modules/users/
+   User data model
+
+   uploads/
+   File storage for uploaded documents
+
+   uploads/drafts/
+   Draft documents from students
+
+   uploads/finals/
+   Final approved LOR documents
+
+
+   EMPTY DIRECTORIES
+   =================
+
+   The following directories exist but contain no files:
+   - src/core/logger/
+   - src/jobs/
+   - src/modules/admin/
+   - src/modules/health/
+
+
+   KEY FILES
+   =========
+
+   Entry Points:
+   - src/server.ts         : Application entry point
+   - src/app.ts           : Express app configuration
+
+   Database:
+   - src/db/index.ts      : MongoDB connection
+
+   Models:
+   - src/modules/users/user.model.ts
+   - src/modules/studentProfiles/studentProfile.model.ts
+   - src/modules/facultyProfiles/facultyProfile.model.ts
+   - src/modules/submissions/submission.model.ts
+   - src/modules/files/file.model.ts
+
+   Routes:
+   - src/modules/auth/auth.routes.ts
+   - src/modules/files/file.routes.ts
+   - src/modules/submissions/submission.routes.ts
+
+   Controllers:
+   - src/modules/auth/auth.controller.ts
+   - src/modules/files/file.controller.ts
+   - src/modules/submissions/submission.controller.ts
+
+   Services:
+   - src/modules/auth/auth.service.ts
+   - src/modules/emails/email.service.ts
+   - src/modules/files/storage.service.ts
+   - src/modules/submissions/submission.service.ts
+
+   Middleware:
+   - src/core/middleware/auth.ts           : Authentication middleware
+   - src/core/middleware/requireRole.ts    : Role-based authorization
+   - src/core/middleware/errorHandler.ts   : Global error handler
+
+   Configuration:
+   - .env                 : Environment variables
+   - tsconfig.json        : TypeScript configuration
+   - package.json         : Dependencies and scripts
+
+
+   NOTES
+   =====
+
+   1. The backend follows a modular architecture with feature-based organization
+   2. TypeScript is used throughout the codebase
+   3. Empty directories (logger, jobs, admin, health) suggest planned features
+   4. File uploads are stored locally in the uploads/ directory
+   5. The structure supports role-based access control (student, faculty, admin)
+   6. Error handling is centralized with custom error classes
