@@ -7,16 +7,62 @@ export interface IStudentProfileDocument extends Document {
   department: string;
   verificationStatus: "pending" | "verified" | "rejected";
   targetUniversities: {
-    name: string;
-    country: string;
+    _id: Types.ObjectId;
+    university: string;
+    program: string;
+    deadline: Date;
+    purpose: string;
+  }[];
+  employment: {
+    status: "employed" | "studying" | "unemployed";
+    company?: string;
+    role?: string;
+    university?: string;
+    course?: string;
+    remarks?: string;
+  };
+  certificates: {
+    _id: Types.ObjectId;
+    type: "GRE" | "GMAT" | "CAT" | "MAT" | "OTHER";
+    fileId: Types.ObjectId;
+    comment?: string;
   }[];
   isActive: boolean;
 }
 
 const targetUniversitySchema = new Schema({
-  name: { type: String, required: true, trim: true },
-  country: { type: String, required: true, trim: true }
+  university: { type: String, required: true, trim: true },
+  program: { type: String, required: true, trim: true },
+  deadline: { type: Date, required: true },
+  purpose: { type: String, required: true, trim: true }
+}, { _id: true });
+
+const employmentSchema = new Schema({
+  status: { 
+    type: String, 
+    enum: ["employed", "studying", "unemployed"], 
+    required: true 
+  },
+  company: { type: String, trim: true },
+  role: { type: String, trim: true },
+  university: { type: String, trim: true },
+  course: { type: String, trim: true },
+  remarks: { type: String, trim: true }
 }, { _id: false });
+
+const certificateSchema = new Schema({
+  type: { 
+    type: String, 
+    enum: ["GRE", "GMAT", "CAT", "MAT", "OTHER"], 
+    required: true 
+  },
+  fileId: { 
+    type: Schema.Types.ObjectId, 
+    ref: "File", 
+    required: true 
+  },
+  comment: { type: String, trim: true }
+}, { _id: true });
 
 const studentProfileSchema = new Schema<IStudentProfileDocument>(
   {
@@ -53,12 +99,29 @@ const studentProfileSchema = new Schema<IStudentProfileDocument>(
     },
     targetUniversities: {
       type: [targetUniversitySchema],
+      default: [],
       validate: [
         {
-          validator: function (targets: any[]) {
-            return targets.length <= 10;
+          validator: function (targets: unknown[]) {
+            return targets.length <= 5;
           },
-          message: "Maximum 10 target universities allowed"
+          message: "Maximum 5 target universities allowed"
+        }
+      ]
+    },
+    employment: {
+      type: employmentSchema,
+      default: () => ({ status: "studying" })
+    },
+    certificates: {
+      type: [certificateSchema],
+      default: [],
+      validate: [
+        {
+          validator: function (certs: unknown[]) {
+            return certs.length <= 5;
+          },
+          message: "Maximum 5 certificates allowed"
         }
       ]
     },

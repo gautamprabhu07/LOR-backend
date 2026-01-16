@@ -1,0 +1,462 @@
+/* StudentEmploymentPage.css */
+:root {
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #dbeafe;
+  --error-color: #dc2626;
+  --error-light: #fee2e2;
+  --success-color: #16a34a;
+  --success-light: #dcfce7;
+  --border-color: #e5e7eb;
+  --border-dark: #d1d5db;
+  --bg-light: #f9fafb;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --transition: all 0.2s ease-in-out;
+}
+
+.employment-root {
+  padding: var(--spacing-lg);
+  max-width: 48rem;
+  margin: 0 auto;
+  font-family: inherit;
+}
+
+.employment-title {
+  margin: 0 0 var(--spacing-sm) 0;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.employment-subtitle {
+  margin: 0 0 var(--spacing-lg) 0;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Alerts */
+.employment-alert {
+  margin: 0 0 var(--spacing-lg) 0;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  border-left: 4px solid;
+}
+
+.employment-alert.error {
+  background-color: var(--error-light);
+  color: var(--error-color);
+  border-left-color: var(--error-color);
+}
+
+.employment-alert.success {
+  background-color: var(--success-light);
+  color: var(--success-color);
+  border-left-color: var(--success-color);
+}
+
+.employment-alert.info {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+  border-left-color: var(--primary-color);
+}
+
+/* Loading State */
+.employment-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl);
+  min-height: 300px;
+}
+
+.employment-spinner {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Form Container */
+.employment-form-container {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+}
+
+.employment-form-title {
+  margin: 0 0 var(--spacing-lg) 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Form Fields */
+.employment-field {
+  margin-bottom: var(--spacing-lg);
+}
+
+.employment-field:last-child {
+  margin-bottom: 0;
+}
+
+.employment-label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+}
+
+.employment-label.required::after {
+  content: " *";
+  color: var(--error-color);
+}
+
+.employment-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.employment-radio-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+}
+
+.employment-radio {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: var(--spacing-xs);
+  cursor: pointer;
+  accent-color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.employment-radio-label {
+  flex: 1;
+  margin: 0;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.employment-radio-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: normal;
+}
+
+/* Conditional Fields Container */
+.employment-conditional-fields {
+  margin-left: 0.75rem;
+  padding-left: var(--spacing-lg);
+  border-left: 2px solid var(--primary-light);
+  display: none;
+  animation: slideIn 0.2s ease-in-out;
+}
+
+.employment-conditional-fields.visible {
+  display: block;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.employment-conditional-field {
+  margin-bottom: var(--spacing-lg);
+}
+
+.employment-conditional-field:last-child {
+  margin-bottom: 0;
+}
+
+.employment-input,
+.employment-select {
+  width: 100%;
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  background-color: #ffffff;
+  transition: var(--transition);
+  box-sizing: border-box;
+}
+
+.employment-input:focus,
+.employment-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.employment-input:disabled {
+  background-color: var(--bg-light);
+  color: var(--text-secondary);
+  cursor: not-allowed;
+}
+
+.employment-field-hint {
+  display: block;
+  margin-top: var(--spacing-xs);
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.employment-field-error {
+  display: block;
+  margin-top: var(--spacing-xs);
+  font-size: 0.8125rem;
+  color: var(--error-color);
+  font-weight: 500;
+}
+
+/* Status Display */
+.employment-current-status {
+  background-color: var(--bg-light);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.employment-status-label {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--spacing-xs);
+  font-weight: 600;
+}
+
+.employment-status-value {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+/* Form Actions */
+.employment-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-2xl);
+  flex-wrap: wrap;
+}
+
+.employment-button {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  min-width: 120px;
+  text-align: center;
+  white-space: nowrap;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.employment-button.primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.employment-button.primary:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.employment-button.primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+.employment-button.secondary {
+  background-color: #ffffff;
+  color: var(--primary-color);
+  border: 1px solid var(--border-color);
+}
+
+.employment-button.secondary:hover:not(:disabled) {
+  background-color: var(--bg-light);
+  border-color: var(--border-dark);
+}
+
+.employment-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Save State Indicator */
+.employment-save-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 0.8125rem;
+  margin-top: var(--spacing-md);
+}
+
+.employment-save-indicator.success {
+  color: var(--success-color);
+}
+
+.employment-save-indicator.error {
+  color: var(--error-color);
+}
+
+.employment-save-icon {
+  font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .employment-root {
+    padding: var(--spacing-md);
+  }
+
+  .employment-title {
+    font-size: 1.5rem;
+  }
+
+  .employment-form-container {
+    padding: var(--spacing-md);
+  }
+
+  .employment-actions {
+    flex-direction: column;
+  }
+
+  .employment-button {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .employment-radio-wrapper {
+    gap: var(--spacing-sm);
+  }
+
+  .employment-radio {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .employment-button,
+  .employment-input,
+  .employment-select,
+  .employment-conditional-fields {
+    transition: none;
+    animation: none;
+  }
+
+  .employment-spinner {
+    animation: none;
+    border-top-color: var(--text-secondary);
+  }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .employment-root {
+    background-color: #1f2937;
+    color: #f3f4f6;
+  }
+
+  .employment-title {
+    color: #f3f4f6;
+  }
+
+  .employment-subtitle {
+    color: #d1d5db;
+  }
+
+  .employment-form-container {
+    background-color: #111827;
+    border-color: #374151;
+  }
+
+  .employment-input,
+  .employment-select {
+    background-color: #1f2937;
+    color: #f3f4f6;
+    border-color: #374151;
+  }
+
+  .employment-input:focus,
+  .employment-select:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+  }
+
+  .employment-radio-label {
+    color: #f3f4f6;
+  }
+
+  .employment-radio-description {
+    color: #9ca3af;
+  }
+
+  .employment-current-status {
+    background-color: #1f2937;
+    border-color: #374151;
+  }
+
+  .employment-button.secondary {
+    background-color: #1f2937;
+    color: #60a5fa;
+    border-color: #374151;
+  }
+
+  .employment-button.secondary:hover:not(:disabled) {
+    background-color: #111827;
+    border-color: #60a5fa;
+  }
+
+  .employment-conditional-fields {
+    border-left-color: rgba(37, 99, 235, 0.3);
+  }
+}

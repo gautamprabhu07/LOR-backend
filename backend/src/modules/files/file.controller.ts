@@ -21,6 +21,61 @@ interface AuthRequest extends Request {
 
 export const fileController = {
   /**
+   * POST /api/files/upload
+   * General file upload (for certificates, etc.)
+   * 🔒 Student/Alumni only
+   */
+  uploadFile: asyncHandler(async (req: AuthRequest, res: Response) => {
+    const actorUserId = req.user!.id;
+
+    // 1. Validate file presence
+    if (!req.file) {
+      throw new BadRequestError("No file uploaded");
+    }
+
+    // 2. Get student profile to ensure user is student/alumni
+    const studentProfile = await StudentProfile.findOne({
+      userId: actorUserId,
+      isActive: true
+    });
+
+    if (!studentProfile) {
+      throw new NotFoundError("Student profile not found");
+    }
+
+    // 3. Save file to storage (using drafts folder for now, could create separate folder)
+    const { storageKey, size } = await storageService.saveDraftFile(
+      req.file.buffer,
+      studentProfile._id.toString(),
+      "general", // Not submission-specific
+      req.file.originalname
+    );
+
+    // 4. Create File document without submissionId
+    const fileDoc = await File.create({
+      studentId: studentProfile._id,
+      type: "certificate",
+      version: 1,
+      uploadedBy: new Types.ObjectId(actorUserId),
+      storageKey,
+      originalName: req.file.originalname,
+      mimeType: req.file.mimetype,
+      size
+    });
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        fileId: fileDoc._id,
+        originalName: fileDoc.originalName,
+        mimeType: fileDoc.mimeType,
+        size: fileDoc.size,
+        uploadedAt: fileDoc.createdAt
+      }
+    });
+  }),
+
+  /**
    * POST /api/files/upload-draft/:submissionId
    * 🔒 Student/Alumni only
    */

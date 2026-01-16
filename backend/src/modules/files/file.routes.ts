@@ -48,6 +48,20 @@ const downloadLimiter = rateLimit({
 });
 
 /**
+ * POST /api/files/upload
+ * General file upload (for certificates, etc.)
+ * 🔒 Student/Alumni only
+ */
+router.post(
+  "/upload",
+  auth,
+  requireRole("student", "alumni"),
+  uploadLimiter,
+  multerUpload.single("file"),
+  fileController.uploadFile
+);
+
+/**
  * POST /api/files/upload-draft/:submissionId
  * Upload draft LoR (student)
  * 🔒 Student/Alumni only

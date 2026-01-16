@@ -6,6 +6,7 @@ import { env } from "./config/env.js";
 import { authRouter } from "./modules/auth/auth.routes.js";
 import { submissionRouter } from "./modules/submissions/submission.routes.js";
 import { fileRouter } from "./modules/files/file.routes.js";
+import studentProfileRouter from "./modules/studentProfiles/studentProfile.routes.js";
 import { errorHandler } from "./core/middleware/errorHandler.js";
 
 const app = express();
@@ -43,10 +44,13 @@ app.use("/auth", authRouter);
 // 7. Submission routes
 app.use("/api/submissions", submissionRouter);
 
-// 8. File upload/download routes
+// 8. Student profile routes
+app.use("/api/student/profile", studentProfileRouter);
+
+// 9. File upload/download routes
 app.use("/api/files", fileRouter);
 
-// 9. 404 handler (minimal)
+// 10. 404 handler (minimal)
 app.use((req, res) => {
   res.status(404).json({
     status: "error",
@@ -54,7 +58,7 @@ app.use((req, res) => {
   });
 });
 
-// 10. Global error handler (LAST middleware)
+// 11. Global error handler (LAST middleware)
 app.use(errorHandler);
 
 export default app;

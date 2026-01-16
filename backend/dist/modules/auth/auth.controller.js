@@ -50,7 +50,7 @@ export const authController = {
     }),
     /**
      * GET /auth/me
-     */
+    */
     me: asyncHandler(async (req, res) => {
         if (!req.user) {
             throw new Error("User not found"); // caught by auth middleware
