@@ -15,6 +15,12 @@ router.use(auth, requireRole("student", "alumni"));
 router.get("/", studentProfileController.getProfile);
 
 /**
+ * GET /api/student/profile/completion
+ * Get profile completion percentage
+ */
+router.get("/completion", studentProfileController.getProfileCompletion);
+
+/**
  * Employment endpoints
  * GET    /api/student/profile/employment
  * PATCH  /api/student/profile/employment

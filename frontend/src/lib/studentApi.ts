@@ -69,6 +69,17 @@ export interface StudentSubmission {
   updatedAt: string;
 }
 
+export interface ProfileCompletion {
+  percentage: number;
+  completed: number;
+  total: number;
+  breakdown: {
+    targets: boolean;
+    certificates: boolean;
+    employment: boolean;
+  };
+}
+
 interface ListSubmissionsResponse {
   status: "success";
   data: {
@@ -83,6 +94,14 @@ export const studentApi = {
     const res = await apiClient.get<{ status: "success"; data: StudentProfile }>(
       "/api/student/profile"
     );
+    return res.data.data;
+  },
+
+  async getProfileCompletion(): Promise<ProfileCompletion> {
+    const res = await apiClient.get<{
+      status: "success";
+      data: ProfileCompletion;
+    }>("/api/student/profile/completion");
     return res.data.data;
   },
 

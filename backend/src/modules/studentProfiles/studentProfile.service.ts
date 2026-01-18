@@ -228,3 +228,57 @@ export const getStudentProfile = async (userId: string) => {
 
   return profile;
 };
+
+/**
+ * Profile completion
+ */
+const isEmploymentComplete = (employment?: {
+  status?: "employed" | "studying" | "unemployed";
+  company?: string;
+  role?: string;
+  university?: string;
+  course?: string;
+}) => {
+  if (!employment?.status) return false;
+
+  if (employment.status === "employed") {
+    return Boolean(employment.company && employment.role);
+  }
+
+  if (employment.status === "studying") {
+    return Boolean(employment.university && employment.course);
+  }
+
+  return true; // unemployed only requires status
+};
+
+export const getProfileCompletion = async (userId: string) => {
+  const profile = await StudentProfile.findOne({
+    userId,
+    isActive: true
+  }).lean();
+
+  if (!profile) {
+    throw new NotFoundError("Student profile not found");
+  }
+
+  const hasTargets = (profile.targetUniversities?.length || 0) > 0;
+  const hasCertificates = (profile.certificates?.length || 0) > 0;
+  const employmentComplete = isEmploymentComplete(profile.employment);
+
+  const total = 3;
+  const completed = [hasTargets, hasCertificates, employmentComplete].filter(Boolean)
+    .length;
+  const percentage = Math.round((completed / total) * 100);
+
+  return {
+    percentage,
+    completed,
+    total,
+    breakdown: {
+      targets: hasTargets,
+      certificates: hasCertificates,
+      employment: employmentComplete
+    }
+  };
+};

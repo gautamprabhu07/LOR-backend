@@ -198,6 +198,49 @@
    KEY FILES
    =========
 
+
+    DESIGN THEME REFERENCE
+    ======================
+
+    Primary accent
+    - Orange accent: #F16F20
+
+    Primary CTAs (Approve, Upload, etc.)
+    - Outlined buttons (border + text)
+    - Orange hover/dark: #d9611c / #D35A0F
+    - Hover states for orange buttons
+
+    Neutrals (text + surfaces)
+    - Dark grey text: #5A6872 (main headings, labels in admin/dean/clerk themes)
+    - Medium grey text: #969EA4 (headings and body text in earlier faculty/admin versions)
+    - Secondary grey text: #8B95A1 (secondary labels, captions, muted info)
+
+    Backgrounds and cards
+    - Light app background: #F8FAFB (layout backgrounds, dean/admin/clerk)
+    - Older overall background / light blue-grey: #D5E2ED
+    - Card / surface: #FEFEFE and #FFFFFF (paper / card components)
+    - Table / section backgrounds:
+       - #F8FAFB (table header rows)
+       - #EDEFF0 (sub-panels, remark boxes)
+       - #E8ECF1 (borders, subtle dividers)
+
+    Chips, highlights, states
+    - Status / highlight backgrounds:
+       - #E3F2FD (info/under review)
+       - #E8F5E9 / #E0F7E9 (success/approved)
+       - #FFF8E1 (warning/resubmission)
+       - #FFEBEE / #FFE5E5 (error/rejected)
+       - #EDEFF0 / #F8FAFB (neutral chips/backgrounds)
+    - Accent text colors in chips:
+       - #1565C0 (info/blue)
+       - #2E7D32 (success)
+       - #C62828 (error)
+
+    Layout chrome
+    - Sidebar / divider greys: #E8ECF1, #D5E2ED
+    - Legacy app bar background (older admin/faculty layout): #D5E2ED (AppBar)
+    - Legacy page background: #969EA4
+
    Entry Points:
    - src/server.ts         : Application entry point
    - src/app.ts           : Express app configuration
@@ -248,3 +291,7 @@
    4. File uploads are stored locally in the uploads/ directory
    5. The structure supports role-based access control (student, faculty, admin)
    6. Error handling is centralized with custom error classes
+
+font family: font-family: Lato, Lucida Sans Unicode, Lucida Grande, sans-serif;
+
+F26F20,F9FBFE,A0A1A2,F49861,C3D7E6

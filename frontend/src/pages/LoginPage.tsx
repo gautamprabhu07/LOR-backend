@@ -28,6 +28,7 @@ export const LoginPage: React.FC = () => {
   );
   const [serverError, setServerError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { name, value } = e.target;
@@ -133,19 +134,45 @@ export const LoginPage: React.FC = () => {
               <label className="login-label" htmlFor="password">
                 Password
               </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                className={`login-input ${
-                  formErrors.password ? "login-input-error" : ""
-                }`}
-                placeholder="Enter your password"
-                value={form.password}
-                onChange={handleChange}
-                required
-              />
+              <div className="login-input-wrapper">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  className={`login-input ${
+                    formErrors.password ? "login-input-error" : ""
+                  }`}
+                  placeholder="Enter your password"
+                  value={form.password}
+                  onChange={handleChange}
+                  required
+                />
+                <button
+                  type="button"
+                  className={`login-password-toggle ${showPassword ? "active" : ""}`}
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
+                  title={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? (
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                      <path
+                        fill="currentColor"
+                        d="M12 5c5.05 0 8.27 4.1 9.35 6-.83 1.47-2.48 3.68-4.9 5.05l1.52 1.52C20.94 16.39 22.5 13.5 23 12c-.79-2.23-4.64-9-11-9-1.46 0-2.78.23-3.97.62l1.64 1.64C10.36 5.09 11.16 5 12 5Zm-9.78-.72L3.5 5.56C1.53 7.07.2 9.05 0 12c.79 2.23 4.64 9 11 9 2.2 0 4.12-.58 5.74-1.49l2.2 2.2 1.28-1.28L3.5 3 2.22 4.28ZM5.63 7.7l1.42 1.42A4.5 4.5 0 0 0 12 16.5c.6 0 1.18-.11 1.71-.31l1.5 1.5A6.48 6.48 0 0 1 12 19c-5.05 0-8.27-4.1-9.35-6 .64-1.14 1.73-2.62 3.0-3.75ZM9.5 12a2.5 2.5 0 0 0 3.95 2.02l-3.47-3.47c-.3.42-.48.93-.48 1.45Zm2.5-2.5c.51 0 1.03.16 1.45.48l-3.43 3.43c.32.32.77.59 1.48.59A2.5 2.5 0 0 0 12 9.5Z"
+                      />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                      <path
+                        fill="currentColor"
+                        d="M12 5c6.36 0 10.21 6.77 11 9-.79 2.23-4.64 9-11 9S1.79 16.23 1 14c.79-2.23 4.64-9 11-9Zm0 2C7.34 7 4.6 11.35 3.2 14c1.4 2.65 4.14 7 8.8 7s7.4-4.35 8.8-7C19.4 11.35 16.66 7 12 7Zm0 2.5A4.5 4.5 0 1 1 7.5 14 4.5 4.5 0 0 1 12 9.5Zm0 2A2.5 2.5 0 1 0 14.5 14 2.5 2.5 0 0 0 12 11.5Z"
+                      />
+                    </svg>
+                  )}
+                </button>
+              </div>
               {formErrors.password && (
                 <p className="login-error-text">{formErrors.password}</p>
               )}

@@ -25,6 +25,22 @@ export const getProfile = asyncHandler(async (req: AuthRequest, res: Response) =
 });
 
 /**
+ * GET /api/student/profile/completion
+ * Get profile completion percentage
+ */
+export const getProfileCompletion = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
+    const userId = req.user!.id;
+    const completion = await studentProfileService.getProfileCompletion(userId);
+
+    res.json({
+      status: "success",
+      data: completion
+    });
+  }
+);
+
+/**
  * Employment endpoints
  */
 
