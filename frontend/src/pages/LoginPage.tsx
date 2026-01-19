@@ -57,10 +57,18 @@ export const LoginPage: React.FC = () => {
 
     try {
       setIsSubmitting(true);
-      await login(form.email, form.password);
+      const user = await login(form.email, form.password);
 
-      // Redirect based on role later; for now, simple default dashboard
-      navigate("/", { replace: true });
+      const targetPath =
+        user.role === "faculty"
+          ? "/faculty"
+          : user.role === "student"
+          ? "/student"
+          : user.role === "admin"
+          ? "/admin"
+          : "/";
+
+      navigate(targetPath, { replace: true });
     } catch (err: unknown) {
       const message =
         typeof err === "object" && err !== null && "message" in err &&

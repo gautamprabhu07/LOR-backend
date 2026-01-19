@@ -11,7 +11,7 @@ import type { AuthUser } from "../lib/authApi";
 interface AuthContextValue {
   user: AuthUser | null;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<AuthUser>;
   logout: () => Promise<void>;
 }
 
@@ -53,6 +53,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (email: string, password: string) => {
     const loggedInUser = await authApi.login(email, password);
     setUser(loggedInUser);
+    return loggedInUser;
   };
 
   const logout = async () => {

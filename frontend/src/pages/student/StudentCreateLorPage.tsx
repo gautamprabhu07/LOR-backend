@@ -143,12 +143,23 @@ export const StudentCreateLorPage: React.FC = () => {
       return;
     }
 
+    if (!form.deadline) {
+      setError("Please select a submission deadline.");
+      return;
+    }
+
+    const deadlineDate = new Date(form.deadline);
+    if (Number.isNaN(deadlineDate.getTime())) {
+      setError("Please provide a valid deadline date and time.");
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
       const { id } = await studentApi.createSubmission({
         facultyId: form.facultyId,
-        deadline: form.deadline,
+        deadline: deadlineDate.toISOString(),
         purpose: form.purpose,
       });
 

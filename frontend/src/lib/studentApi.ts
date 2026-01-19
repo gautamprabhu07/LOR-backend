@@ -80,6 +80,38 @@ export interface ProfileCompletion {
   };
 }
 
+export interface SubmissionDetail {
+  id: string;
+  studentId: string;
+  facultyId: string;
+  status: SubmissionStatus;
+  deadline: string;
+  universityName?: string;
+  purpose?: string;
+  isAlumni: boolean;
+  currentVersion: number;
+  facultyNotes?: string;
+  auditLog: {
+    at: string;
+    actorId: string;
+    fromStatus: SubmissionStatus | null;
+    toStatus: SubmissionStatus;
+    remark?: string;
+  }[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SubmissionFile {
+  _id: string;
+  type: "draft" | "final" | "certificate";
+  version: number;
+  originalName: string;
+  mimeType: string;
+  size: number;
+  createdAt: string;
+}
+
 export interface FacultyDirectoryEntry {
   id: string;
   facultyCode: string;
@@ -226,4 +258,22 @@ export const studentApi = {
     }>("/api/submissions", payload);
     return { id: res.data.data.submission.id };
   },
+
+  async getSubmissionDetail(id: string): Promise<SubmissionDetail> {
+    const res = await apiClient.get<{
+      status: "success";
+      data: { submission: SubmissionDetail };
+    }>(`/api/submissions/${id}`);
+    return res.data.data.submission;
+  },
+
+  async listSubmissionFiles(submissionId: string): Promise<SubmissionFile[]> {
+    const res = await apiClient.get<{
+      status: "success";
+      data: SubmissionFile[];
+    }>(`/api/files/submission/${submissionId}`);
+    return res.data.data;
+  },
 };
+
+

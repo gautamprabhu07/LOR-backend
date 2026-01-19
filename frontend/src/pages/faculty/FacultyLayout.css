@@ -1,0 +1,318 @@
+/* FacultyLayout.css */
+
+/* THEME TOKENS (aligned with student theme) */
+:root {
+  --fl-primary: #f16f20;
+  --fl-primary-dark: #d35a0f;
+  --fl-primary-light: #ff8c42;
+  --fl-bg: #f5f7fa;
+  --fl-surface: #ffffff;
+  --fl-border: #e8ecf1;
+  --fl-border-hover: #b8cfdf;
+  --fl-text-primary: #5a6872;
+  --fl-text-secondary: #8b95a1;
+  --fl-shadow-sm: 0 1px 3px rgba(90, 104, 114, 0.08);
+  --fl-shadow-md: 0 4px 12px rgba(90, 104, 114, 0.12);
+  --fl-radius: 10px;
+  --fl-radius-pill: 999px;
+  --fl-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* SHELL */
+.fl-shell {
+  min-height: 100vh;
+  background: var(--fl-bg);
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Text",
+    "Segoe UI",
+    sans-serif;
+  color: var(--fl-text-primary);
+}
+
+/* APPBAR */
+.fl-appbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: 64px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--fl-surface);
+  box-shadow: var(--fl-shadow-md);
+}
+
+.fl-appbar-icon-button {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--fl-radius-pill);
+  border: 1px solid var(--fl-border);
+  background: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--fl-transition);
+}
+
+.fl-appbar-icon-button:hover {
+  border-color: var(--fl-border-hover);
+  box-shadow: var(--fl-shadow-sm);
+  transform: translateX(4px);
+}
+
+.fl-appbar-icon {
+  font-size: 1.1rem;
+  color: var(--fl-text-secondary);
+  transition: var(--fl-transition);
+}
+
+.fl-appbar-icon-button:hover .fl-appbar-icon {
+  color: var(--fl-primary);
+  transform: scale(1.1);
+}
+
+.fl-appbar-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fl-appbar-title-main {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--fl-text-primary);
+}
+
+.fl-appbar-title-sub {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--fl-text-secondary);
+}
+
+/* PROFILE */
+.fl-appbar-profile {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fl-profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.fl-profile-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--fl-text-primary);
+}
+
+.fl-profile-meta {
+  font-size: 0.75rem;
+  color: var(--fl-text-secondary);
+}
+
+.fl-profile-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--fl-radius-pill);
+  background: rgba(241, 111, 32, 0.08);
+  border: 1px solid rgba(241, 111, 32, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--fl-primary);
+}
+
+/* MAIN LAYOUT */
+.fl-main {
+  display: flex;
+  align-items: stretch;
+}
+
+/* SIDEBAR */
+.fl-sidebar {
+  position: sticky;
+  top: 64px;
+  height: calc(100vh - 64px);
+  background: var(--fl-surface);
+  border-right: 1px solid var(--fl-border);
+  box-shadow: var(--fl-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition:
+    width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fl-sidebar-open {
+  width: 260px;
+}
+
+.fl-sidebar-collapsed {
+  width: 72px;
+}
+
+.fl-sidebar-header {
+  padding: 16px 14px 8px;
+}
+
+.fl-sidebar-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--fl-text-secondary);
+}
+
+/* NAV */
+.fl-nav {
+  padding: 4px 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fl-nav-item {
+  position: relative;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--fl-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: var(--fl-transition);
+}
+
+.fl-nav-item-accent {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  bottom: 6px;
+  width: 4px;
+  border-radius: 999px;
+  background: transparent;
+  transform-origin: top;
+  transform: scaleY(0);
+  transition: var(--fl-transition);
+}
+
+.fl-nav-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  color: var(--fl-text-secondary);
+  transition: var(--fl-transition);
+}
+
+.fl-nav-label {
+  white-space: nowrap;
+}
+
+.fl-nav-item:hover {
+  background: #f5f7fa;
+  transform: translateX(4px);
+}
+
+.fl-nav-item:hover .fl-nav-icon {
+  color: var(--fl-primary);
+  transform: scale(1.1);
+}
+
+/* ACTIVE */
+.fl-nav-item-active {
+  background: rgba(241, 111, 32, 0.08);
+  color: var(--fl-primary);
+}
+
+.fl-nav-item-active .fl-nav-icon {
+  color: var(--fl-primary);
+}
+
+.fl-nav-item-active .fl-nav-item-accent {
+  background: var(--fl-primary);
+  transform: scaleY(1);
+}
+
+/* LOGOUT ITEM */
+.fl-nav-item-logout {
+  margin-top: auto;
+  color: #b3261e;
+}
+
+.fl-nav-item-logout .fl-nav-icon {
+  color: #b3261e;
+}
+
+.fl-nav-item-logout:hover {
+  background: rgba(179, 38, 30, 0.06);
+}
+
+/* CONTENT */
+.fl-content {
+  flex: 1;
+  min-width: 0;
+  padding: 16px 18px 24px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .fl-sidebar {
+    position: fixed;
+    left: 0;
+    top: 64px;
+    bottom: 0;
+    transform: translateX(0);
+    z-index: 15;
+  }
+
+  .fl-sidebar-collapsed {
+    transform: translateX(-100%);
+  }
+
+  .fl-content {
+    padding: 14px 14px 20px;
+  }
+
+  .fl-appbar-title-main {
+    font-size: 0.95rem;
+  }
+
+  .fl-appbar-profile {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 640px) {
+  .fl-appbar {
+    padding: 0 12px;
+  }
+
+  .fl-profile-info {
+    display: none;
+  }
+}
+
+/* REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+  .fl-appbar-icon-button,
+  .fl-nav-item,
+  .fl-sidebar {
+    transition: none;
+  }
+}

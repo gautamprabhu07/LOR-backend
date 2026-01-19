@@ -4,7 +4,6 @@ import { useAuth } from "../../context/AuthContext";
 import { studentApi } from "../../lib/studentApi";
 import type {
   StudentProfile,
-  StudentSubmission,
   ProfileCompletion,
 } from "../../lib/studentApi";
 import {
@@ -12,13 +11,8 @@ import {
   Award,
   Target,
   Briefcase,
-  Clock,
-  CheckCircle,
   AlertCircle,
-  XCircle,
-  RefreshCw,
   ArrowRight,
-  Calendar,
   Mail,
   Building2,
 } from "lucide-react";
@@ -30,22 +24,6 @@ interface DashboardStats {
   targetUniversities: number;
 }
 
-const statusLabelMap: Record<string, string> = {
-  submitted: "Submitted",
-  resubmission: "Needs Resubmission",
-  approved: "Approved",
-  rejected: "Rejected",
-  completed: "Completed",
-};
-
-const statusIconMap: Record<string, React.ReactNode> = {
-  submitted: <Clock size={14} />,
-  resubmission: <RefreshCw size={14} />,
-  approved: <CheckCircle size={14} />,
-  rejected: <XCircle size={14} />,
-  completed: <CheckCircle size={14} />,
-};
-
 export const StudentDashboard: React.FC = () => {
   const { user } = useAuth();
   const [profile, setProfile] = useState<StudentProfile | null>(null);
@@ -54,7 +32,6 @@ export const StudentDashboard: React.FC = () => {
     certificatesCount: 0,
     targetUniversities: 0,
   });
-  const [submissions, setSubmissions] = useState<StudentSubmission[]>([]);
   const [completion, setCompletion] = useState<ProfileCompletion | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -80,8 +57,6 @@ export const StudentDashboard: React.FC = () => {
             certificatesCount: certs.length,
             targetUniversities: targets.length,
           });
-
-          setSubmissions(requestData);
           setCompletion(completionData);
         }
       } catch (err) {
@@ -256,87 +231,6 @@ export const StudentDashboard: React.FC = () => {
             <ArrowRight size={16} className="dashboard-action-arrow" />
           </Link>
         </div>
-      </section>
-
-      {/* Recent Requests */}
-      <section className="dashboard-section">
-        <div className="dashboard-section-header">
-          <h2 className="dashboard-section-title">Recent Requests</h2>
-          {submissions.length > 0 && (
-            <Link to="/student/requests" className="dashboard-section-link">
-              View All
-              <ArrowRight size={14} />
-            </Link>
-          )}
-        </div>
-
-        {submissions.length === 0 ? (
-          <div className="dashboard-empty">
-            <div className="dashboard-empty-icon">
-              <FileText size={48} strokeWidth={1.5} />
-            </div>
-            <h3 className="dashboard-empty-title">No requests yet</h3>
-            <p className="dashboard-empty-message">
-              Start by applying for your first Letter of Recommendation
-            </p>
-            <Link to="/student/apply-lor" className="dashboard-empty-action">
-              <FileText size={16} />
-              Apply for LoR
-            </Link>
-          </div>
-        ) : (
-          <div className="dashboard-table-wrapper">
-            <table className="dashboard-table">
-              <thead>
-                <tr>
-                  <th>University</th>
-                  <th>Purpose</th>
-                  <th>Deadline</th>
-                  <th>Status</th>
-                  <th>Submitted</th>
-                </tr>
-              </thead>
-              <tbody>
-                {submissions.slice(0, 5).map((req) => (
-                  <tr key={req.id}>
-                    <td>
-                      <div className="dashboard-table-cell">
-                        <Building2 size={16} className="dashboard-table-icon" />
-                        <span>{req.universityName || "—"}</span>
-                      </div>
-                    </td>
-                    <td>{req.purpose || "—"}</td>
-                    <td>
-                      <div className="dashboard-table-cell">
-                        <Calendar size={16} className="dashboard-table-icon" />
-                        <span>
-                          {new Date(req.deadline).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          })}
-                        </span>
-                      </div>
-                    </td>
-                    <td>
-                      <span className={`dashboard-status-badge ${req.status}`}>
-                        {statusIconMap[req.status]}
-                        {statusLabelMap[req.status] ?? req.status}
-                      </span>
-                    </td>
-                    <td className="dashboard-table-secondary">
-                      {new Date(req.createdAt).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
       </section>
     </div>
   );
