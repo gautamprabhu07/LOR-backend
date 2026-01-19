@@ -225,9 +225,6 @@ export const StudentRequestDetailPage: React.FC = () => {
             <h1 className="request-detail-title">
               Letter of Recommendation Request
             </h1>
-            <p className="request-detail-university">
-              {detail.universityName || "Unknown university"}
-            </p>
             <div className="request-detail-meta">
               <span className="meta-item">
                 <FiCalendar size={14} />
