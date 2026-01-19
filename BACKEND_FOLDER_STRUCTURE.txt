@@ -295,3 +295,91 @@
 font family: font-family: Lato, Lucida Sans Unicode, Lucida Grande, sans-serif;
 
 F26F20,F9FBFE,A0A1A2,F49861,C3D7E6
+
+
+The current design of my layout looks very bland, can you provide entire mdofiied code seperately for tsx and css file improving on the design making it look more professional and minimal. Use hover animation effects, react icons wherever necsessary in accordance to education system standards. Making a easier to use and readable ui.
+
+Create a professional, minimal educational portal interface using Material Design principles. Use a soft color palette with Primary Orange (#F16F20) as the brand accent, white surfaces (#FFFFFF) on light gray backgrounds (#F5F7FA). Include smooth 0.3s ease transitions, rounded corners (10px), subtle shadows, and micro-interactions like hover scale effects (1.1x) and 4px horizontal translations. Active states should have light orange backgrounds (8% opacity) with left accent bars. Use icon-first navigation with Cool Gray (#8B95A1) default colors transitioning to Primary Orange on hover/active. Typography should be 600-700 weight for labels with generous spacing. Include collapsible sidebar functionality and status indicator chips
+
+Design Theme Summary
+Professional Minimalist Educational Portal with Soft Material Design
+Core Design Principles:
+
+Clean & Professional: Minimal, distraction-free interface suitable for academic/institutional use
+Soft Material Design: Material-UI components with custom refinements, rounded corners, and subtle shadows
+Smooth Micro-interactions: Gentle transitions (0.3s ease), hover effects with scale/translate transforms
+Information Hierarchy: Clear visual separation between navigation, content, and status indicators
+
+Color Palette:
+Primary Orange: #F16F20 (main brand color)
+Orange Dark: #D35A0F (hover states)
+Orange Light: #FF8C42 (accents)
+Pure White: #FFFFFF (surfaces)
+Light Gray: #F5F7FA (backgrounds)
+Medium Gray: #E8ECF1 (borders)
+Cool Gray: #8B95A1 (secondary text)
+Dark Gray: #5A6872 (primary text)
+Light Blue: #D5E2ED (hover backgrounds)
+Medium Blue: #B8CFDF (borders on hover)
+Visual Characteristics:
+Spacing & Layout:
+
+Generous whitespace and breathing room
+8px grid system (implied from spacing values)
+Fixed top navigation (64px height)
+Collapsible sidebar (260px expanded / 72px collapsed)
+
+Typography:
+
+Primary text: Dark Gray (#5A6872)
+Secondary text: Cool Gray (#8B95A1)
+Font weights: 600-700 for headings/labels
+Font sizes: 0.75rem - 1.1rem range
+
+Shadows:
+
+Soft, subtle shadows (rgba with low opacity)
+Shadow SM: 0 1px 3px rgba(90, 104, 114, 0.08)
+Shadow MD: 0 4px 12px rgba(90, 104, 114, 0.12)
+
+Border Radius:
+
+Buttons/Cards: 10px (medium rounding)
+User profile pill: 50px (fully rounded)
+Consistent rounded aesthetic throughout
+
+Animations & Interactions:
+
+0.3s cubic-bezier(0.4, 0, 0.2, 1) for smooth, natural motion
+Hover states: subtle color shifts + 4px translateX
+Scale effects: 1.1x on icons
+Active indicators: 4px left border accent bar with scaleY animation
+Icon color transitions from Cool Gray to Primary Orange
+
+Interactive Elements:
+
+Active state: Light orange background (8% opacity) + orange text/icons
+Hover state: Light gray background + slight horizontal shift + icon scale
+Accent bars that scale vertically on active items
+Tooltips for collapsed sidebar states
+
+Component Patterns:
+
+Top AppBar: White background, fixed position, shadow for depth
+Sidebar: White surface, vertical list, permanent drawer
+User profile: Pill-shaped container with avatar + info
+Status chips: Color-coded (success/warning/error) with icons
+List items: Rounded buttons with left accent bars
+
+Key Design Features to Replicate:
+
+Subtle brand color usage: Orange used sparingly for accents, active states, and CTAs
+Soft transitions: Everything animated with ease curves, nothing instant
+Layered depth: White surfaces on light gray backgrounds with soft shadows
+Icon-first navigation: Icons precede labels, maintain visibility in collapsed state
+Status indicators: Color-coded chips with icons for verification states
+Responsive hover feedback: Multi-property transitions (color, position, scale)
+Professional polish: Attention to micro-details like border transitions, shadow changes
+
+
+

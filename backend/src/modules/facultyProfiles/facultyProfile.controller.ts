@@ -41,10 +41,11 @@ export const updateProfile = asyncHandler(async (req: AuthRequest, res: Response
   // Only proceed if there's something to update
   if (Object.keys(validated).length === 0) {
     const profile = await facultyProfileService.getFacultyProfile(userId);
-    return res.json({
+    res.json({
       status: "success",
       data: profile
     });
+    return;
   }
 
   const profile = await facultyProfileService.updateFacultyProfile(userId, validated);
@@ -71,6 +72,28 @@ export const listProfiles = asyncHandler(async (req: AuthRequest, res: Response)
   const validated = listProfilesSchema.parse(req.query);
 
   const result = await facultyProfileService.listFacultyProfiles(validated);
+
+  res.json({
+    status: "success",
+    data: result
+  });
+});
+
+/**
+ * GET /api/faculty/directory (student/alumni/admin)
+ * List active faculty directory with search
+ */
+const listDirectorySchema = z.object({
+  search: z.string().trim().min(1).optional(),
+  department: z.string().optional(),
+  limit: z.string().transform((val) => parseInt(val, 10)).optional(),
+  skip: z.string().transform((val) => parseInt(val, 10)).optional()
+});
+
+export const listDirectory = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const validated = listDirectorySchema.parse(req.query);
+
+  const result = await facultyProfileService.listFacultyDirectory(validated);
 
   res.json({
     status: "success",

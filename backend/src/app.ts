@@ -7,6 +7,10 @@ import { authRouter } from "./modules/auth/auth.routes.js";
 import { submissionRouter } from "./modules/submissions/submission.routes.js";
 import { fileRouter } from "./modules/files/file.routes.js";
 import studentProfileRouter from "./modules/studentProfiles/studentProfile.routes.js";
+import facultyProfileRouter, {
+  adminRouter as facultyAdminRouter,
+  directoryRouter as facultyDirectoryRouter
+} from "./modules/facultyProfiles/facultyProfile.routes.js";
 import { errorHandler } from "./core/middleware/errorHandler.js";
 
 const app = express();
@@ -46,6 +50,11 @@ app.use("/api/submissions", submissionRouter);
 
 // 8. Student profile routes
 app.use("/api/student/profile", studentProfileRouter);
+
+// 8.1 Faculty profile routes
+app.use("/api/faculty/profile", facultyProfileRouter);
+app.use("/api/faculty/profiles", facultyAdminRouter);
+app.use("/api/faculty/directory", facultyDirectoryRouter);
 
 // 9. File upload/download routes
 app.use("/api/files", fileRouter);

@@ -102,6 +102,18 @@ router.get(
 );
 
 /**
+ * GET /api/files/certificates/:fileId/view
+ * View certificate file inline
+ * 🔒 Ownership validated in controller
+ */
+router.get(
+  "/certificates/:fileId/view",
+  auth,
+  downloadLimiter,
+  fileController.viewCertificate
+);
+
+/**
  * GET /api/files/submission/:submissionId
  * List all files for a submission
  * 🔒 Ownership validated in controller

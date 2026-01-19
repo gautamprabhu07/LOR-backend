@@ -323,6 +323,55 @@ export const fileController = {
   }),
 
   /**
+   * GET /api/files/certificates/:fileId/view
+   * 🔒 Student/Alumni owner or admin
+   */
+  viewCertificate: asyncHandler(async (req: AuthRequest, res: Response) => {
+    const fileId = req.params.fileId as string;
+    const actorUserId = req.user!.id;
+    const actorRole = req.user!.role;
+
+    const fileDoc = await File.findById(fileId);
+    if (!fileDoc || fileDoc.type !== "certificate") {
+      throw new NotFoundError("Certificate file not found");
+    }
+
+    if (!fileDoc.studentId) {
+      throw new NotFoundError("Certificate owner not found");
+    }
+
+    if (actorRole !== "admin") {
+      if (actorRole !== "student" && actorRole !== "alumni") {
+        throw new ForbiddenError("Access denied to this certificate");
+      }
+
+      const studentProfile = await StudentProfile.findOne({
+        userId: actorUserId,
+        isActive: true
+      }).select("_id");
+
+      if (!studentProfile) {
+        throw new NotFoundError("Student profile not found");
+      }
+
+      if (studentProfile._id.toString() !== fileDoc.studentId.toString()) {
+        throw new ForbiddenError("Access denied to this certificate");
+      }
+    }
+
+    const fileStream = storageService.getFileStream(fileDoc.storageKey);
+
+    res.setHeader("Content-Type", fileDoc.mimeType);
+    res.setHeader(
+      "Content-Disposition",
+      `inline; filename="${encodeURIComponent(fileDoc.originalName)}"`
+    );
+    res.setHeader("Content-Length", fileDoc.size.toString());
+
+    fileStream.pipe(res);
+  }),
+
+  /**
    * GET /api/files/submission/:submissionId
    * List all files for a submission
    * 🔒 Ownership validated

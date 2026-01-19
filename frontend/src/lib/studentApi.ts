@@ -80,6 +80,23 @@ export interface ProfileCompletion {
   };
 }
 
+export interface FacultyDirectoryEntry {
+  id: string;
+  facultyCode: string;
+  department: string;
+  designation: string;
+  email?: string;
+  displayName: string;
+}
+
+interface FacultyDirectoryResponse {
+  status: "success";
+  data: {
+    profiles: FacultyDirectoryEntry[];
+    total: number;
+  };
+}
+
 interface ListSubmissionsResponse {
   status: "success";
   data: {
@@ -171,6 +188,20 @@ export const studentApi = {
     await apiClient.delete(
       `/api/student/profile/certificates/${certificateId}`
     );
+  },
+
+  // Faculty Directory
+  async listFacultyDirectory(params?: {
+    search?: string;
+    department?: string;
+    limit?: number;
+    skip?: number;
+  }): Promise<FacultyDirectoryEntry[]> {
+    const res = await apiClient.get<FacultyDirectoryResponse>(
+      "/api/faculty/directory",
+      { params }
+    );
+    return res.data.data.profiles;
   },
 
   // Submissions

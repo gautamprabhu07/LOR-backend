@@ -84,8 +84,10 @@ export const LoginPage: React.FC = () => {
           <div className="login-brand">
             <div className="login-logo-circle">L</div>
             <div className="login-title-block">
-              <h1 className="login-title">LOR Portal</h1>
-              <p className="login-subtitle">Secure Recommendation Management</p>
+              <h1 className="login-title">Prototype - MIT LOR System</h1>
+              <p className="login-subtitle">
+                This is a prototype solely for demo purposes.
+              </p>
             </div>
           </div>
           <p className="login-description">
@@ -93,6 +95,15 @@ export const LoginPage: React.FC = () => {
             or admin. Sessions are protected with short-lived tokens and
             HttpOnly cookies.
           </p>
+          <div className="login-description">
+            <p style={{ margin: 0, fontWeight: 600 }}>Demo accounts</p>
+            <ul style={{ margin: "8px 0 0 16px", padding: 0 }}>
+              <li>Student: rahul.sharma@mitmanipal.edu</li>
+              <li>Faculty: dr.rajesh.kumar@mitmanipal.edu</li>
+              <li>Dean: dean.varun.mehta@mitmanipal.edu</li>
+              <li>Password: password123</li>
+            </ul>
+          </div>
         </div>
 
         <div className="login-right">

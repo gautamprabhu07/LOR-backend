@@ -33,4 +33,16 @@ export const adminRouter = Router();
 adminRouter.use(auth);
 adminRouter.get("/", requireRole("admin"), facultyProfileController.listProfiles);
 
+/**
+ * Directory routes (student/alumni/admin)
+ * Mounted at: /api/faculty/directory
+ */
+export const directoryRouter = Router();
+directoryRouter.use(auth);
+directoryRouter.get(
+	"/",
+	requireRole("student", "alumni", "admin"),
+	facultyProfileController.listDirectory
+);
+
 export default router;
