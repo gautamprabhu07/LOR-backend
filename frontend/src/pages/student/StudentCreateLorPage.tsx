@@ -17,7 +17,6 @@ import {
   FaTimes,
   FaCloudUploadAlt,
   FaInfoCircle,
-  FaChevronRight
 } from "react-icons/fa";
 
 interface FormState {
@@ -25,13 +24,6 @@ interface FormState {
   purpose: string;
   deadline: string;
   draftFile: File | null;
-}
-
-interface StepInfo {
-  number: number;
-  title: string;
-  icon: React.ReactNode;
-  description: string;
 }
 
 export const StudentCreateLorPage: React.FC = () => {
@@ -44,39 +36,11 @@ export const StudentCreateLorPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const [currentStep, setCurrentStep] = useState<number>(1);
   const [facultyOptions, setFacultyOptions] = useState<FacultyDirectoryEntry[]>([]);
   const [facultyLoading, setFacultyLoading] = useState(false);
   const [facultyError, setFacultyError] = useState<string | null>(null);
   const [facultyQuery, setFacultyQuery] = useState("");
   const [isFacultyOpen, setIsFacultyOpen] = useState(false);
-
-  const steps: StepInfo[] = [
-    {
-      number: 1,
-      title: "Faculty Selection",
-      icon: <FaUserGraduate />,
-      description: "Choose your recommender"
-    },
-    {
-      number: 2,
-      title: "Request Details",
-      icon: <FaUniversity />,
-      description: "Provide university & purpose"
-    },
-    {
-      number: 3,
-      title: "Upload Draft",
-      icon: <FaFileUpload />,
-      description: "Attach your LoR draft"
-    },
-    {
-      number: 4,
-      title: "Submit",
-      icon: <FaPaperPlane />,
-      description: "Review and send request"
-    }
-  ];
 
   const handleChange: React.ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
@@ -180,7 +144,6 @@ export const StudentCreateLorPage: React.FC = () => {
     }
 
     setIsSubmitting(true);
-    setCurrentStep(4);
     
     try {
       const { id } = await studentApi.createSubmission({
@@ -207,24 +170,15 @@ export const StudentCreateLorPage: React.FC = () => {
         draftFile: null,
       });
       setFacultyQuery("");
-      setCurrentStep(1);
     } catch (err: unknown) {
       const message =
         err && typeof err === "object" && "message" in err && typeof (err as { message?: unknown }).message === "string"
           ? (err as { message: string }).message
           : "Failed to create LoR request.";
       setError(message);
-      setCurrentStep(1);
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const getStepStatus = (stepNumber: number): 'completed' | 'active' | 'pending' => {
-    if (message) return 'completed';
-    if (stepNumber < currentStep) return 'completed';
-    if (stepNumber === currentStep) return 'active';
-    return 'pending';
   };
 
   return (
@@ -240,35 +194,6 @@ export const StudentCreateLorPage: React.FC = () => {
           <FaInfoCircle />
           <span>Need Help?</span>
         </div>
-      </div>
-
-      {/* Progress Steps */}
-      <div className="lor-steps-container">
-        {steps.map((step, index) => (
-          <div key={step.number} className="lor-step-wrapper">
-            <div className={`lor-step ${getStepStatus(step.number)}`}>
-              <div className="lor-step-indicator">
-                <div className="lor-step-circle">
-                  {getStepStatus(step.number) === 'completed' ? (
-                    <FaCheckCircle />
-                  ) : (
-                    step.icon
-                  )}
-                </div>
-                <div className="lor-step-info">
-                  <span className="lor-step-number">Step {step.number}</span>
-                  <h3 className="lor-step-title">{step.title}</h3>
-                  <p className="lor-step-description">{step.description}</p>
-                </div>
-              </div>
-            </div>
-            {index < steps.length - 1 && (
-              <div className="lor-step-connector">
-                <FaChevronRight />
-              </div>
-            )}
-          </div>
-        ))}
       </div>
 
       {error && (
