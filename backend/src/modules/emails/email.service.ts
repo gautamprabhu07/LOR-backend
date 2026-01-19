@@ -42,13 +42,13 @@ export const emailService = {
         to,
         subject,
         html
-      }).catch((err) => {
+      }).catch((err: unknown) => {
         // Log but don't crash
         console.error("Email delivery failed:", {
           type,
           to,
           submissionId: context.submissionId,
-          error: err.message
+          error: err instanceof Error ? err.message : "Unknown error"
         });
       });
     } catch (err) {

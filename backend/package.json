@@ -17,6 +17,10 @@
     "@types/mongodb": "^4.0.6",
     "@types/mongoose": "^5.11.96",
     "@types/multer": "^2.0.0",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/nodemailer": "^7.0.5",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -33,13 +37,9 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
-    "@types/cookie-parser": "^1.4.10",
-    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/helmet": "^0.0.48",
-    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.0.6",
-    "@types/nodemailer": "^7.0.5",
     "tsx": "^4.19.2",
     "typescript": "^5.9.3"
   }
