@@ -109,7 +109,7 @@ export const LoginPage: React.FC = () => {
               <li>Student: rahul.sharma@mitmanipal.edu</li>
               <li>Faculty: dr.rajesh.kumar@mitmanipal.edu</li>
               <li>Dean: dean.varun.mehta@mitmanipal.edu</li>
-              <li>Password: password123</li>
+              <li>Password: manipal123</li>
             </ul>
           </div>
         </div>

@@ -44,6 +44,8 @@ export interface Certificate {
 export interface StudentProfile {
   _id: string;
   userId: string;
+  name?: string;
+  email?: string;
   registrationNumber: string;
   isAlumni: boolean;
   department: string;

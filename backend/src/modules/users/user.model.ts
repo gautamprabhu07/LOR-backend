@@ -3,6 +3,7 @@ import { Schema, model, Document } from "mongoose";
 export type UserRole = "student" | "alumni" | "faculty" | "admin";
 
 export interface IUserDocument extends Document {
+  name?: string;
   email: string;
   passwordHash: string;
   role: UserRole;
@@ -12,6 +13,10 @@ export interface IUserDocument extends Document {
 
 const userSchema = new Schema<IUserDocument>(
   {
+    name: {
+      type: String,
+      trim: true
+    },
     email: {
       type: String,
       required: true,

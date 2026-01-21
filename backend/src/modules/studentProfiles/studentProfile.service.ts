@@ -83,7 +83,9 @@ export const addTargetUniversity = async (
     purpose: string;
   }
 ) => {
-  const profile = await StudentProfile.findOne({ userId, isActive: true });
+  const profile = await StudentProfile.findOne({ userId, isActive: true }).select(
+    "targetUniversities"
+  );
 
   if (!profile) {
     throw new NotFoundError("Student profile not found");
@@ -94,10 +96,28 @@ export const addTargetUniversity = async (
     throw new BadRequestError("Maximum 5 target universities allowed");
   }
 
-  profile.targetUniversities.push(data as typeof profile.targetUniversities[0]);
-  await profile.save();
+  const targetToAdd = {
+    _id: new Types.ObjectId(),
+    university: data.university,
+    program: data.program,
+    deadline: data.deadline,
+    purpose: data.purpose
+  } as typeof profile.targetUniversities[0];
 
-  return profile.targetUniversities[profile.targetUniversities.length - 1];
+  const updated = await StudentProfile.findOneAndUpdate(
+    { userId, isActive: true },
+    { $push: { targetUniversities: targetToAdd } },
+    { new: true, runValidators: true }
+  );
+
+  if (!updated) {
+    throw new NotFoundError("Student profile not found");
+  }
+
+  const added = updated.targetUniversities.find(
+    (target) => target._id.toString() === targetToAdd._id.toString()
+  );
+  return added ?? updated.targetUniversities[updated.targetUniversities.length - 1];
 };
 
 export const deleteTargetUniversity = async (
@@ -149,7 +169,9 @@ export const addCertificate = async (
     comment?: string;
   }
 ) => {
-  const profile = await StudentProfile.findOne({ userId, isActive: true });
+  const profile = await StudentProfile.findOne({ userId, isActive: true }).select(
+    "certificates"
+  );
 
   if (!profile) {
     throw new NotFoundError("Student profile not found");
@@ -177,15 +199,27 @@ export const addCertificate = async (
     throw new BadRequestError("Comment is required for certificate type OTHER");
   }
 
-  profile.certificates.push({
+  const certificateToAdd = {
+    _id: new Types.ObjectId(),
     type: data.type,
     fileId: new Types.ObjectId(data.fileId),
     comment: data.comment
-  } as typeof profile.certificates[0]);
+  } as typeof profile.certificates[0];
 
-  await profile.save();
+  const updated = await StudentProfile.findOneAndUpdate(
+    { userId, isActive: true },
+    { $push: { certificates: certificateToAdd } },
+    { new: true, runValidators: true }
+  ).populate("certificates.fileId", "originalName mimeType size uploadedAt");
 
-  return profile.certificates[profile.certificates.length - 1];
+  if (!updated) {
+    throw new NotFoundError("Student profile not found");
+  }
+
+  const added = updated.certificates.find(
+    (cert) => cert._id.toString() === certificateToAdd._id.toString()
+  );
+  return added ?? updated.certificates[updated.certificates.length - 1];
 };
 
 export const deleteCertificate = async (
@@ -220,13 +254,23 @@ export const getStudentProfile = async (userId: string) => {
     isActive: true 
   })
     .populate("certificates.fileId", "originalName mimeType size uploadedAt")
+    .populate("userId", "name email")
     .lean();
 
   if (!profile) {
     throw new NotFoundError("Student profile not found");
   }
 
-  return profile;
+  const user = profile.userId as unknown as
+    | { _id?: string; name?: string; email?: string }
+    | undefined;
+
+  return {
+    ...profile,
+    userId: user?._id ?? profile.userId,
+    name: user?.name,
+    email: user?.email
+  };
 };
 
 /**

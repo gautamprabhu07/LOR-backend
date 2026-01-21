@@ -341,20 +341,39 @@ export const fileController = {
     }
 
     if (actorRole !== "admin") {
-      if (actorRole !== "student" && actorRole !== "alumni") {
-        throw new ForbiddenError("Access denied to this certificate");
-      }
+      if (actorRole === "student" || actorRole === "alumni") {
+        const studentProfile = await StudentProfile.findOne({
+          userId: actorUserId,
+          isActive: true
+        }).select("_id");
 
-      const studentProfile = await StudentProfile.findOne({
-        userId: actorUserId,
-        isActive: true
-      }).select("_id");
+        if (!studentProfile) {
+          throw new NotFoundError("Student profile not found");
+        }
 
-      if (!studentProfile) {
-        throw new NotFoundError("Student profile not found");
-      }
+        if (studentProfile._id.toString() !== fileDoc.studentId.toString()) {
+          throw new ForbiddenError("Access denied to this certificate");
+        }
+      } else if (actorRole === "faculty") {
+        const facultyProfile = await FacultyProfile.findOne({
+          userId: actorUserId,
+          isActive: true
+        }).select("_id");
 
-      if (studentProfile._id.toString() !== fileDoc.studentId.toString()) {
+        if (!facultyProfile) {
+          throw new NotFoundError("Faculty profile not found");
+        }
+
+        const assignedSubmission = await Submission.findOne({
+          studentId: fileDoc.studentId,
+          facultyId: facultyProfile._id,
+          isActive: true
+        }).select("_id");
+
+        if (!assignedSubmission) {
+          throw new ForbiddenError("Access denied to this certificate");
+        }
+      } else {
         throw new ForbiddenError("Access denied to this certificate");
       }
     }

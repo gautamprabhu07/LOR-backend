@@ -41,10 +41,11 @@ export const StudentLayout: React.FC = () => {
   }, []);
 
   const displayName =
-    profile?.registrationNumber || user?.userId.slice(0, 6).toUpperCase() || "Student";
-  const displayEmail = profile
-    ? `${profile.registrationNumber.toLowerCase()}@college.edu`
-    : "student@college.edu";
+    profile?.name ||
+    profile?.registrationNumber ||
+    user?.userId.slice(0, 6).toUpperCase() ||
+    "Student";
+  const displayEmail = profile?.email || "student@college.edu";
 
   const navItems = [
     { to: "/student", label: "Dashboard", icon: LayoutDashboard, end: true },

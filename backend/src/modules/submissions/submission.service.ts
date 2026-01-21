@@ -159,6 +159,14 @@ export const submissionService = {
     // Lean query for performance (no Mongoose document overhead)
     const submissions = await Submission.find(query)
       .select("studentId facultyId status deadline universityName purpose currentVersion createdAt updatedAt")
+      .populate({
+        path: "studentId",
+        select: "userId",
+        populate: {
+          path: "userId",
+          select: "email"
+        }
+      })
       .sort({ createdAt: -1 })
       .limit(100)
       .lean();

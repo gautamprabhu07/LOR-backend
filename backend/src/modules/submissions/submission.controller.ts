@@ -3,6 +3,7 @@ import { z } from "zod";
 import { asyncHandler } from "../../core/utils/asyncHandler.js";
 import { submissionService } from "./submission.service.js";
 import { UserRole, SubmissionStatus } from "../../core/utils/statusTransitions.js";
+import { StudentProfile } from "../studentProfiles/studentProfile.model.js";
 
 // Extend Request to include authenticated user
 interface AuthRequest extends Request {
@@ -107,12 +108,29 @@ export const submissionController = {
     );
 
     // 4. Response
+    const getStudentEmail = (submission: any): string | undefined =>
+      submission?.studentId?.userId?.email;
+
+    const getStudentName = (email?: string): string | undefined => {
+      if (!email) return undefined;
+      const local = email.split("@")[0];
+      if (!local) return undefined;
+      return local
+        .replace(/[._-]+/g, " ")
+        .split(" ")
+        .filter(Boolean)
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(" ");
+    };
+
     res.status(200).json({
       status: "success",
       data: {
         submissions: submissions.map(s => ({
           id: s._id,
           studentId: s.studentId,
+          studentEmail: getStudentEmail(s as any),
+          studentName: getStudentName(getStudentEmail(s as any)),
           facultyId: s.facultyId,
           status: s.status,
           deadline: s.deadline,
@@ -148,6 +166,43 @@ export const submissionController = {
       req.user.role
     );
 
+    const studentProfile = await StudentProfile.findById(submission.studentId)
+      .select("registrationNumber department targetUniversities employment certificates userId")
+      .populate("certificates.fileId", "originalName mimeType size uploadedAt")
+      .populate({
+        path: "userId",
+        select: "email"
+      })
+      .lean();
+
+    const getStudentName = (email?: string): string | undefined => {
+      if (!email) return undefined;
+      const local = email.split("@")[0];
+      if (!local) return undefined;
+      return local
+        .replace(/[._-]+/g, " ")
+        .split(" ")
+        .filter(Boolean)
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(" ");
+    };
+
+    const studentEmail = studentProfile && "userId" in studentProfile
+      ? (studentProfile.userId as { email?: string } | undefined)?.email
+      : undefined;
+
+    const studentContext = studentProfile
+      ? {
+          name: getStudentName(studentEmail),
+          email: studentEmail,
+          registrationNumber: studentProfile.registrationNumber,
+          department: studentProfile.department,
+          targets: studentProfile.targetUniversities || [],
+          employment: studentProfile.employment,
+          certificates: studentProfile.certificates || []
+        }
+      : null;
+
     // 3. Response
     res.status(200).json({
       status: "success",
@@ -166,7 +221,8 @@ export const submissionController = {
           auditLog: submission.auditLog,
           createdAt: submission.createdAt,
           updatedAt: submission.updatedAt
-        }
+        },
+        studentContext
       }
     });
   }),

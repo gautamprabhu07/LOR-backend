@@ -17,8 +17,7 @@ import { StudentRequestDetailPage } from "./pages/student/StudentRequestDetailPa
 // Faculty
 import { FacultyLayout } from "./pages/faculty/FacultyLayout";
 import { FacultyDashboard } from "./pages/faculty/FacultyDashboard";
-// You can add a dedicated FacultyRequestDetailPage later if needed
-// import { FacultyRequestDetailPage } from "./pages/faculty/FacultyRequestDetailPage";
+import { FacultyRequestDetailPage } from "./pages/faculty/FacultyRequestDetailPage";
 
 const App: React.FC = () => {
   return (
@@ -50,7 +49,7 @@ const App: React.FC = () => {
           {/* Route can reuse a common detail page if you design it that way */}
           <Route
             path="requests/:id"
-            element={<StudentRequestDetailPage />}
+            element={<FacultyRequestDetailPage />}
           />
           {/* When you create a dedicated faculty detail page, swap the element above */}
           {/* <Route path="requests/:id" element={<FacultyRequestDetailPage />} /> */}

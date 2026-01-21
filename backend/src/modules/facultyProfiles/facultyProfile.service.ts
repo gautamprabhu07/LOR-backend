@@ -11,6 +11,7 @@ export interface FacultyProfileDTO {
   facultyCode: string;
   department: string;
   designation: string;
+  name?: string;
   email?: string;
 }
 
@@ -19,6 +20,7 @@ export interface FacultyDirectoryDTO {
   facultyCode: string;
   department: string;
   designation: string;
+  name?: string;
   email?: string;
   displayName: string;
 }
@@ -33,7 +35,7 @@ export interface UpdateFacultyProfilePayload {
  */
 export async function getFacultyProfile(userId: string): Promise<FacultyProfileDTO> {
   const profile = await FacultyProfile.findOne({ userId, isActive: true })
-    .populate("userId", "email")
+    .populate("userId", "email name")
     .lean();
 
   if (!profile) {
@@ -46,6 +48,7 @@ export async function getFacultyProfile(userId: string): Promise<FacultyProfileD
     facultyCode: profile.facultyCode,
     department: profile.department,
     designation: profile.designation,
+    name: (profile.userId as any)?.name,
     email: (profile.userId as any)?.email
   };
 }
@@ -63,7 +66,7 @@ export async function updateFacultyProfile(
     { $set: payload },
     { new: true, runValidators: true }
   )
-    .populate("userId", "email")
+    .populate("userId", "email name")
     .lean();
 
   if (!profile) {
@@ -76,6 +79,7 @@ export async function updateFacultyProfile(
     facultyCode: profile.facultyCode,
     department: profile.department,
     designation: profile.designation,
+    name: (profile.userId as any)?.name,
     email: (profile.userId as any)?.email
   };
 }
@@ -99,7 +103,7 @@ export async function listFacultyProfiles(options: {
 
   const [profiles, total] = await Promise.all([
     FacultyProfile.find(filter)
-      .populate("userId", "email")
+      .populate("userId", "email name")
       .limit(limit)
       .skip(skip)
       .lean(),
@@ -111,6 +115,7 @@ export async function listFacultyProfiles(options: {
     facultyCode: profile.facultyCode,
     department: profile.department,
     designation: profile.designation,
+    name: (profile.userId as any)?.name,
     email: (profile.userId as any)?.email
   }));
 
@@ -148,7 +153,7 @@ export async function listFacultyDirectory(options: {
 
   const [profiles, total] = await Promise.all([
     FacultyProfile.find(filter)
-      .populate("userId", "email")
+      .populate("userId", "email name")
       .limit(limit)
       .skip(skip)
       .lean(),
@@ -158,15 +163,15 @@ export async function listFacultyDirectory(options: {
   const mappedProfiles = profiles
     .map((profile) => {
       const email = (profile.userId as any)?.email;
-      const displayName = email
-        ? email.split("@")[0]
-        : `Faculty ${profile.facultyCode}`;
+      const name = (profile.userId as any)?.name;
+      const displayName = name || (email ? email.split("@")[0] : `Faculty ${profile.facultyCode}`);
 
       return {
         id: profile._id.toString(),
         facultyCode: profile.facultyCode,
         department: profile.department,
         designation: profile.designation,
+        name,
         email,
         displayName
       };

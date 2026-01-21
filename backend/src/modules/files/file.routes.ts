@@ -11,19 +11,21 @@ const router = Router();
 const multerUpload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 5 * 1024 * 1024 // 5 MB max
+    fileSize: 10 * 1024 * 1024 // 10 MB max
   },
   fileFilter: (req, file, cb) => {
     const allowedMimes = [
       "application/pdf",
       "application/msword", // .doc
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document" // .docx
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+      "image/jpeg",
+      "image/png"
     ];
 
     if (allowedMimes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error("Invalid file type. Only PDF, DOC, and DOCX allowed."));
+      cb(new Error("Invalid file type. Only PDF, DOC, DOCX, JPG, and PNG allowed."));
     }
   }
 });
