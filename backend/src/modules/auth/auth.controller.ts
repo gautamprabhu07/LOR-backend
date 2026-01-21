@@ -35,10 +35,14 @@ export const authController = {
     const { email, password } = loginSchema.parse(req.body);
     const result = await authService.login(email, password);
 
+    const isProduction = env.NODE_ENV === "production";
+    const isSecureCookie = env.COOKIE_SECURE === "true" || isProduction;
+    const sameSite = isProduction ? "none" : "strict";
+
     res.cookie("accessToken", result.accessToken, {
       httpOnly: true,
-      secure: env.COOKIE_SECURE === "true",
-      sameSite: "strict",
+      secure: isSecureCookie,
+      sameSite,
       maxAge: 15 * 60 * 1000,
       domain: env.COOKIE_DOMAIN || undefined
     });
@@ -56,10 +60,14 @@ export const authController = {
    * POST /auth/logout
    */
   logout: asyncHandler(async (_req: Request, res: Response) => {
+    const isProduction = env.NODE_ENV === "production";
+    const isSecureCookie = env.COOKIE_SECURE === "true" || isProduction;
+    const sameSite = isProduction ? "none" : "strict";
+
     res.clearCookie("accessToken", {
       httpOnly: true,
-      secure: env.COOKIE_SECURE === "true",
-      sameSite: "strict"
+      secure: isSecureCookie,
+      sameSite
     });
     res.status(200).json({ status: "success", message: "Logged out" });
   }),

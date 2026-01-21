@@ -23,9 +23,17 @@ app.use(
 );
 
 // 2. CORS (credentials: true for cookies)
+const allowedOrigins = env.CORS_ORIGIN.split(",").map((origin) => origin.trim());
+
 app.use(
   cors({
-    origin: env.CORS_ORIGIN, // http://localhost:5173
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true
   })
 );
