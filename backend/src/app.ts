@@ -23,18 +23,31 @@ app.use(
 );
 
 // 2. CORS (credentials: true for cookies)
-const allowedOrigins = env.CORS_ORIGIN.split(",").map((origin) => origin.trim());
+const configuredOrigins = env.CORS_ORIGIN.split(",").map((origin) => origin.trim());
+const allowedOrigins = Array.from(
+  new Set([
+    ...configuredOrigins,
+    env.FRONTEND_URL
+  ].filter(Boolean))
+);
+
+const allowAnyOrigin = configuredOrigins.includes("*");
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowAnyOrigin || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
 
       return callback(new Error("Not allowed by CORS"));
     },
-    credentials: true
+    credentials: true,
+    optionsSuccessStatus: 200
   })
 );
 
