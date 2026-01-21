@@ -23,7 +23,7 @@ const envSchema = z.object({
   SMTP_PASS: z.string().min(1, "SMTP_PASS is required"),
   FRONTEND_URL: z.string().url().optional().default("http://localhost:5173"),
   CORS_ORIGIN: z.string().min(1, "CORS_ORIGIN is required"),
-  COOKIE_DOMAIN: z.string().min(1, "COOKIE_DOMAIN is required"),
+  COOKIE_DOMAIN: z.string().optional().default(""),
   COOKIE_SECURE: z
     .string()
     .optional() // "true"/"false", consumed where cookie is set

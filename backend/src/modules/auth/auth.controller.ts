@@ -38,13 +38,14 @@ export const authController = {
     const isProduction = env.NODE_ENV === "production";
     const isSecureCookie = env.COOKIE_SECURE === "true" || isProduction;
     const sameSite = isProduction ? "none" : "strict";
+    const cookieDomain = env.COOKIE_DOMAIN?.trim();
 
     res.cookie("accessToken", result.accessToken, {
       httpOnly: true,
       secure: isSecureCookie,
       sameSite,
       maxAge: 15 * 60 * 1000,
-      domain: env.COOKIE_DOMAIN || undefined
+      ...(cookieDomain ? { domain: cookieDomain } : {})
     });
 
     res.status(200).json({
@@ -63,11 +64,13 @@ export const authController = {
     const isProduction = env.NODE_ENV === "production";
     const isSecureCookie = env.COOKIE_SECURE === "true" || isProduction;
     const sameSite = isProduction ? "none" : "strict";
+    const cookieDomain = env.COOKIE_DOMAIN?.trim();
 
     res.clearCookie("accessToken", {
       httpOnly: true,
       secure: isSecureCookie,
-      sameSite
+      sameSite,
+      ...(cookieDomain ? { domain: cookieDomain } : {})
     });
     res.status(200).json({ status: "success", message: "Logged out" });
   }),
