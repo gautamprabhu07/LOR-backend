@@ -7,7 +7,7 @@ interface ApiError extends Error {
 }
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:4000",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:4000",
   withCredentials: true, // send HttpOnly cookies on all requests
   headers: {
     "Content-Type": "application/json",
