@@ -15,6 +15,11 @@ import { errorHandler } from "./core/middleware/errorHandler.js";
 
 const app = express();
 
+// Trust reverse proxy (Render/NGINX) so secure cookies work over HTTPS
+if (env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
+
 // 1. Security headers FIRST
 app.use(
   helmet({

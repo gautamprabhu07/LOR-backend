@@ -9,7 +9,7 @@ export interface AuthUser {
 
 interface LoginResponse {
   status: "success";
-  data: AuthUser;
+  data: AuthUser & { accessToken?: string };
 }
 
 type MeResponse = LoginResponse;
@@ -20,11 +20,16 @@ export const authApi = {
       email,
       password,
     });
-    return res.data.data;
+    const { accessToken, ...user } = res.data.data;
+    if (accessToken) {
+      localStorage.setItem("accessToken", accessToken);
+    }
+    return user;
   },
 
   async logout(): Promise<void> {
     await apiClient.post("/auth/logout");
+    localStorage.removeItem("accessToken");
   },
 
   async me(): Promise<AuthUser | null> {

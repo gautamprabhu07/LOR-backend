@@ -52,7 +52,8 @@ export const authController = {
       status: "success",
       data: {
         userId: result.userId,
-        role: result.role
+        role: result.role,
+        accessToken: result.accessToken
       }
     });
   }),

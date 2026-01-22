@@ -14,6 +14,16 @@ const apiClient = axios.create({
   },
 });
 
+// Request interceptor: attach bearer token if present
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    config.headers = config.headers ?? {};
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 // Response interceptor: normalize error shape
 apiClient.interceptors.response.use(
   (response) => response,
