@@ -138,12 +138,24 @@ export const LoginPage: React.FC = () => {
                 <span className="login-demo-email">rahul.sharma@mitmanipal.edu</span>
               </div>
               <div className="login-demo-item">
+                <span className="login-demo-role student">Student</span>
+                <span className="login-demo-email">priya.verma@mitmanipal.edu</span>
+              </div>
+              <div className="login-demo-item">
+                <span className="login-demo-role student">Student</span>
+                <span className="login-demo-email">aarav.nair@mitmanipal.edu</span>
+              </div>
+              <div className="login-demo-item">
                 <span className="login-demo-role faculty">Faculty</span>
                 <span className="login-demo-email">dr.rajesh.kumar@mitmanipal.edu</span>
               </div>
               <div className="login-demo-item">
-                <span className="login-demo-role admin">Dean</span>
-                <span className="login-demo-email">dean.varun.mehta@mitmanipal.edu</span>
+                <span className="login-demo-role faculty">Faculty</span>
+                <span className="login-demo-email">prof.sneha.iyer@mitmanipal.edu</span>
+              </div>
+              <div className="login-demo-item">
+                <span className="login-demo-role faculty">Faculty</span>
+                <span className="login-demo-email">dr.kavita.rao@mitmanipal.edu</span>
               </div>
               <div className="login-demo-password">
                 <Lock size={12} />

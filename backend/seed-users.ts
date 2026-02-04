@@ -42,6 +42,12 @@ const seedUsers: SeedUser[] = [
     password: "manipal123",
     role: "student",
   },
+  {
+    name: "Aarav Nair",
+    email: "aarav.nair@mitmanipal.edu",
+    password: "manipal123",
+    role: "student",
+  },
 
   // Faculty
   {
@@ -56,19 +62,11 @@ const seedUsers: SeedUser[] = [
     password: "manipal123",
     role: "faculty",
   },
-
-  // Admin / Dean
   {
-    name: "Dean Varun Mehta",
-    email: "dean.varun.mehta@mitmanipal.edu",
+    name: "Dr. Kavita Rao",
+    email: "dr.kavita.rao@mitmanipal.edu",
     password: "manipal123",
-    role: "admin",
-  },
-  {
-    name: "Dean Anita Singh",
-    email: "dean.anita.singh@mitmanipal.edu",
-    password: "manipal123",
-    role: "admin",
+    role: "faculty",
   },
 ];
 
@@ -100,11 +98,9 @@ async function main() {
   // Group by role
   const students = users.filter((u) => u.role === "student");
   const faculty = users.filter((u) => u.role === "faculty");
-  const admins = users.filter((u) => u.role === "admin");
 
-  const [rahul, priya] = students;
-  const [rajesh, sneha] = faculty;
-  const [deanVarun, deanAnita] = admins; // eslint-disable-line @typescript-eslint/no-unused-vars
+  const [rahul, priya, aarav] = students;
+  const [rajesh, sneha, kavita] = faculty;
 
   // Student profiles
   await StudentProfile.insertMany([
@@ -136,6 +132,21 @@ async function main() {
       certificates: [],
       isActive: true,
     },
+    {
+      userId: aarav._id,
+      registrationNumber: "MIT24EC003",
+      isAlumni: false,
+      department: "Electronics",
+      verificationStatus: "verified",
+      employment: {
+        status: "studying",
+        university: "MIT Manipal",
+        course: "B.Tech ECE",
+      },
+      targetUniversities: [],
+      certificates: [],
+      isActive: true,
+    },
   ]);
 
   // Faculty profiles
@@ -154,11 +165,16 @@ async function main() {
       designation: "Assistant Professor",
       isActive: true,
     },
+    {
+      userId: kavita._id,
+      facultyCode: "ECE-KAVITA",
+      department: "Electronics",
+      designation: "Assistant Professor",
+      isActive: true,
+    },
   ]);
 
-  // Admin/dean users: no extra profile needed yet; they exist as role "admin".
-
-  console.log("✅ Seed users (students, faculty, admins) and profiles created.");
+  console.log("✅ Seed users (students, faculty) and profiles created.");
   await mongoose.disconnect();
 }
 
